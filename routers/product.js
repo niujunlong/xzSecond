@@ -1,0 +1,22 @@
+const express=require('express');
+const pool=require('../pool.js');
+var router=express.Router();
+router.get('/list',function(req,res){
+var obj=req.query;
+if(!obj.start){
+obj.start=1;
+}
+if(!obj.count){
+obj.count=3;
+}
+start=Number(obj.start);
+count=Number(obj.count);
+start1=(start-1)*count;
+//console.log(start,count);
+pool.query('SELECT * FROM xz_laptop limit ?,?',[start1,count],
+	function(err,result){
+if(err) throw err;
+res.send(result);
+});
+})
+module.exports=router;
